@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- MAKE IT INSTALLABLE LIKE REAL APP -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff3b30">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="F NEWS">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/21/21601.png">
+    <title>F NEWS - News</title>
+    <link rel="stylesheet" href="style2.css">
+    <style>
+        .news-top { padding: 15px; text-align: center; }
+        .filter-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+        .filter-btns button { padding:10px 16px; border:none; border-radius:20px; background:#35424a; color:white; font-weight:bold; cursor:pointer; }
+        .filter-btns button.active { background:#e8491d; }
+        #searchBox { width:90%; max-width:400px; padding:12px; border-radius:25px; border:1px solid #ccc; margin:10px 0; font-size:15px; }
+        #newsList { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; padding:15px; }
+        .news-card { width:100%; max-width:350px; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1); text-align:left; }
+        body.dark-mode .news-card { background:#222; color:#fff; }
+        .news-card img { width:100%; height:180px; object-fit:cover; }
+        .news-card-body { padding:12px; }
+        .news-card-body h3 { margin:5px 0; font-size:18px; }
+        .news-card-body p { font-size:14px; opacity:.8; }
+        .tag { display:inline-block; background:#e8491d; color:white; padding:3px 10px; border-radius:20px; font-size:11px; }
+        .time { font-size:11px; opacity:.6; }
+        .read-btn { display:inline-block; margin-top:8px; background:#35424a; color:white; padding:8px 15px; border-radius:20px; text-decoration:none; font-size:13px; }
+    </style>
+</head>
+<body>
+   <header>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight">F NEWS🌍</span></h1>
+          <p id="clock" style="opacity:.6"></p>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="live.html">Live</a></li>
+            <li class="current"><a href="News.html">News</a></li>
+          </ul>
+        </nav>
+        <p id="type" style="clear:both; text-align:center; color:#fff;"></p>
+      </div>
+   </header>
+
+   <div class="news-top">
+      <h2>📰 Latest News</h2>
+      <input type="text" id="searchBox" placeholder="🔍 Search news... e.g. Lagos, Tinubu, Football" oninput="renderNews()">
+      <div class="filter-btns">
+        <button onclick="setFilter('all', this)" class="active">All</button>
+        <button onclick="setFilter('Nigeria', this)">Nigeria</button>
+        <button onclick="setFilter('World', this)">World</button>
+        <button onclick="setFilter('Sports', this)">Sports</button>
+        <button onclick="setFilter('Tech', this)">Tech</button>
+        <button onclick="setFilter('Entertainment', this)">Entertainment</button>
+      </div>
+   </div>
+
+   <div id="newsList"></div>
+
+   <div style="text-align:center; padding:20px;">
+     <button onclick="loadRealNews()" style="padding:12px 20px; background:#e8491d; color:white; border:none; border-radius:25px; font-weight:bold;">🔄 Load Real Live News From Internet</button>
+     <p id="apiMsg" style="font-size:12px; opacity:.6;"></p>
+   </div>
+
+   <footer>
+     <p>Fortune NEWS Copyright &copy; 2027</p>
+     <button id="darkBtn" onclick="toggleDark()">🌙 Dark Mode</button>
+   </footer>
+
+<script>
+// Typing + Clock - same as other pages
+const texts = ["Welcome", "Get updated", "With fortunenews🌍"];
+let ti = 0, ci = 0, del = false;
+(function typeLoop(){
+  let cur = texts[ti];
+  let el = document.getElementById("type");
+  if(el) el.innerText = cur.substring(0, ci);
+  if(!del){ ci++; if(ci > cur.length){ del = true; setTimeout(typeLoop, 1000); return; } }
+  else { ci--; if(ci == 0){ del = false; ti = (ti + 1) % texts.length; } }
+  setTimeout(typeLoop, del ? 50 : 120);
+})();
+setInterval(()=>{ let c=document.getElementById("clock"); if(c) c.innerText=new Date().toLocaleString(); },1000);
+
+function toggleDark(){
+  document.body.classList.toggle("dark-mode");
+  document.getElementById("darkBtn").innerText = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌙 Dark Mode";
+}
+
+// SAMPLE NEWS - So app works even offline, you can edit these!
+let allNews = [
+  { title: "Port Harcourt Residents Celebrate New Road Project", cat: "Nigeria", desc: "Residents in Port Harcourt say the new road will reduce traffic and help businesses grow.", img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500", time: "2 hours ago", link: "#" },
+  { title: "Super Eagles Prepare For Big Match", cat: "Sports", desc: "The Super Eagles are training hard ahead of their next qualifier. Fans are expecting a win.", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500", time: "4 hours ago", link: "#" },
+  { title: "Nigeria Launches New Tech Hub For Young Developers", cat: "Tech", desc: "Young developers in Lagos and Port Harcourt will now get free training and laptops.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500", time: "6 hours ago", link: "#" },
+  { title: "Afrobeats Star Announces World Tour", cat: "Entertainment", desc: "The star will perform in Lagos, London, and New York. Tickets selling fast.", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500", time: "8 hours ago", link: "#" },
+  { title: "World Leaders Meet To Discuss Climate", cat: "World", desc: "Leaders from over 100 countries meet to talk about climate and clean energy.", img: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=500", time: "10 hours ago", link: "#" },
+  { title: "Fuel Price Update: What It Means For You", cat: "Nigeria", desc: "Experts explain the new fuel price and how it will affect transport in Rivers State.", img: "https://images.unsplash.com/photo-1545262810-77515b6ee1d8?w=500", time: "12 hours ago", link: "#" }
+];
+
+let currentFilter = 'all';
+
+function setFilter(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll(".filter-btns button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderNews();
+}
+
+function renderNews(){
+  let q = document.getElementById("searchBox").value.toLowerCase();
+  let list = document.getElementById("newsList");
+  list.innerHTML = "";
+  let filtered = allNews.filter(n => {
+    let matchCat = currentFilter === 'all' || n.cat === currentFilter;
+    let matchSearch = n.title.toLowerCase().includes(q) || n.desc.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+  if(filtered.length === 0){
+    list.innerHTML = "<p>No news found. Try another search.</p>";
+    return;
+  }
+  filtered.forEach(n => {
+    list.innerHTML += `
+      <div class="news-card">
+        <img src="${n.img}" onerror="this.src='https://via.placeholder.com/350x180?text=F+NEWS'">
+        <div class="news-card-body">
+          <span class="tag">${n.cat}</span> <span class="time">${n.time}</span>
+          <h3>${n.title}</h3>
+          <p>${n.desc}</p>
+          <a class="read-btn" href="${n.link}">Read More →</a>
+        </div>
+      </div>
+    `;
+  });
+}
+renderNews();
+
+// REAL NEWS FROM INTERNET - Optional
+async function loadRealNews(){
+  document.getElementById("apiMsg").innerText = "Loading real news...";
+  try {
+    // Free API, no key needed for demo
+    let res = await fetch("https://api.spaceflightnewsapi.net/v4/articles/?limit=6");
+    let data = await res.json();
+    allNews = data.results.map(a => ({
+      title: a.title,
+      cat: "World",
+      desc: a.summary.substring(0, 120) + "...",
+      img: a.image_url,
+      time: new Date(a.published_at).toLocaleDateString(),
+      link: a.url
+    }));
+    currentFilter = 'all';
+    renderNews();
+    document.getElementById("apiMsg").innerText = "Loaded real news from internet!";
+  } catch(e){
+    document.getElementById("apiMsg").innerText = "No internet. Showing offline news.";
+  }
+}
+async function loadRealNews(){
+  document.getElementById("apiMsg").innerText = "Loading real Nigerian news...";
+  try {
+    // Use RSS2JSON - Free, no key
+    let feeds = [
+      "https://punchng.com/feed/",
+      "https://www.vanguardngr.com/feed/",
+      "https://www.premiumtimesng.com/feed"
+    ];
+
+    let all = [];
+    for(let feed of feeds){
+      let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed));
+      let data = await res.json();
+      if(data.items){
+        data.items.slice(0, 5).forEach(item => {
+          all.push({
+            title: item.title,
+            cat: feed.includes("punch") ? "Nigeria" : feed.includes("vanguard") ? "Nigeria" : "Nigeria",
+            desc: item.description.replace(/<[^>]*>/g, "").substring(0, 130) + "...",
+            img: item.enclosure ? item.enclosure.link : "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500",
+            time: new Date(item.pubDate).toLocaleDateString(),
+            link: item.link
+          });
+        });
+      }
+    }
+
+    if(all.length > 0){
+      allNews = all;
+      currentFilter = 'all';
+      renderNews();
+      document.getElementById("apiMsg").innerText = "Loaded " + all.length + " real stories from Punch, Vanguard & Premium Times!";
+    } else {
+      document.getElementById("apiMsg").innerText = "No internet. Showing offline news.";
+    }
+  } catch(e){
+    document.getElementById("apiMsg").innerText = "No internet. Showing offline news.";
+  }
+}
+
+// AUTO LOAD REAL NEWS WHEN PAGE OPENS
+window.onload = function(){
+  loadRealNews();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- MAKE IT INSTALLABLE LIKE REAL APP -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff3b30">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="F NEWS">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/21/21601.png">
+<title>F NEWS - Live</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+  body{background:#f5f5f5;padding-bottom:80px}
+  .topnav{background:#2f3e46;color:#fff;padding:15px;text-align:center}
+  .topnav a{color:#fff;text-decoration:none;display:block;font-size:18px;font-weight:bold;letter-spacing:1px}
+  .topnav a.active{color:#ff3b30}
+  .welcome{color:#ff3b30;text-align:center;margin:12px 0;font-size:18px;min-height:24px}
+  .cursor{display:inline-block;width:2px;height:18px;background:#ff3b30;margin-left:2px;animation:blink 0.7s infinite;vertical-align:middle}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .redline{height:4px;background:#ff3b30}
+  .container{padding:15px;text-align:center}
+  .live-title{font-size:26px;font-weight:bold;margin:15px 0}
+  .live-dot{background:#ff3b30;color:#fff;padding:5px 14px;border-radius:20px;font-size:14px}
+  #typingText{color:#555;font-size:15px;min-height:20px;margin:5px 0 15px 0}
+  /* Cards - replaces iframe */
+  .card{background:#fff;border-radius:15px;overflow:hidden;margin:0 auto 18px auto;max-width:700px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:left}
+  .card img{width:100%;height:200px;object-fit:cover;display:block}
+  .card-body{padding:15px}
+  .card-body h3{font-size:19px;margin-bottom:5px}
+  .card-body p{font-size:13px;color:#777;line-height:1.5}
+  .watch-btn{display:block;background:#ff3b30;color:#fff;text-align:center;padding:13px;text-decoration:none;font-weight:bold;font-size:16px;border-radius:10px;margin-top:12px}
+  .watch-btn:active{background:#000}
+  .live-badge{background:#ff3b30;color:#fff;font-size:12px;padding:3px 10px;border-radius:20px}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#2f3e46;display:flex;justify-content:space-around;padding:12px 0;z-index:99}
+  .bottom-nav a{color:#fff;text-decoration:none;font-size:14px}
+  header{
+  background:#35424a;
+  color:#ff4040;
+  padding-top:20px;
+  padding-bottom:10px;
+  min-height:70px;
+  border-bottom:#e8491d 3px solid;
+}
+
+header a{
+  color:#ffffff;
+  text-decoration:none;
+  text-transform: uppercase;
+  font-size:16px;
+}
+
+header li{
+  float:left;
+  display:inline;
+  padding: 0 15px;
+}
+
+header #branding{ float:left; }
+header #branding h1{ margin:0; }
+header nav{ float:right; margin-top:10px; }
+header .highlight, header .current a{
+  color:#ff5540;
+  font-weight:bold;
+}
+header a:hover{ color:#cccccc; }
+
+#showcase{
+  min-height:350px;
+  background:#35424a;
+  background-position: center;
+  background-size: cover;
+  text-align:center;
+  color:#ffffff;
+  display:flex;
+  align-items:center;
+}
+
+</style>
+</head>
+<body>
+    <h1><span class="highlight">F NEWS🌍</span></h1>
+
+<div class="topnav">
+  <a href="index.html">HOME</a>
+  <a href="live.html" class="active">LIVE</a>
+  <a href="news.html">NEWS</a>
+  <div class="welcome"><span id="welcomeText"></span><span class="cursor"></span></div>
+</div>
+<div class="redline"></div>
+
+<div class="container">
+  <div class="live-title"><span class="live-dot">● LIVE</span> Watch Live News</div>
+  <p id="typingText"></p>
+
+  <!-- ARISE -->
+  <div class="card">
+    <img src="https://i.ytimg.com/vi/wqAwGhKnkjc/hqdefault.jpg" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800'">
+    <div class="card-body">
+      <h3>Arise News <span class="live-badge">● LIVE</span></h3>
+      <p>Arise News 24/7 - Breaking news, politics and business from Nigeria and Africa.</p>
+      <a class="watch-btn" href="https://www.youtube.com/@AriseNews/live" target="_blank">▶ Watch Arise Live on YouTube</a>
+    </div>
+  </div>
+
+  <!-- TVC -->
+  <div class="card">
+    <img src="https://yt3.googleusercontent.com/ytc/AIdro_kX9v8K0vZ0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0=s900-c-k-c0x00ffffff-no-rj" onerror="this.src='https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800'">
+    <div class="card-body">
+      <h3>TVC News <span class="live-badge">● LIVE</span></h3>
+      <p>TVC News Nigeria - Top stories, entertainment and sports.</p>
+      <a class="watch-btn" href="https://www.youtube.com/@tvcnewsnigeria/live" target="_blank">▶ Watch TVC Live on YouTube</a>
+    </div>
+  </div>
+
+  <!-- CHANNELS -->
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=800">
+    <div class="card-body">
+      <h3>Channels TV <span class="live-badge">● LIVE</span></h3>
+      <p>Channels Television - Nigeria's leading 24-hour news channel.</p>
+      <a class="watch-btn" href="https://www.youtube.com/@channelstelevision/live" target="_blank">▶ Watch Channels Live on YouTube</a>
+    </div>
+  </div>
+
+  <!-- NTA -->
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800">
+    <div class="card-body">
+      <h3>NTA <span class="live-badge">● LIVE</span></h3>
+      <p>Nigerian Television Authority - Network news and national programmes.</p>
+      <a class="watch-btn" href="https://www.youtube.com/@NTANewsNow/live" target="_blank">▶ Watch NTA Live on YouTube</a>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#888;line-height:1.6">Tap any red button. It will open in YouTube app and play.<br>No more black screen, no more Error 153.</p>
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html">☰ Menu</a>
+  <a href="index.html">○ Home</a>
+  <a href="live.html">← Back</a>
+</div>
+
+<script>
+// ===== YOUR TYPING EFFECT - SAME AS BEFORE =====
+const welcomeWords = ["Welcome", "Welcome to F NEWS", "Stay Informed", "Nigeria Live..."];
+const subWords = ["Watch Live News...", "Breaking News from Nigeria...", "Channels • Arise • TVC • NTA..."];
+let wIndex = 0, wChar = 0, wDeleting = false;
+let sIndex = 0, sChar = 0, sDeleting = false;
+
+function typeWelcome(){
+  let current = welcomeWords[wIndex];
+  let el = document.getElementById("welcomeText");
+  if(wDeleting){
+    wChar--; el.innerText = current.substring(0, wChar);
+    if(wChar === 0){ wDeleting = false; wIndex = (wIndex+1) % welcomeWords.length; }
+  } else {
+    wChar++; el.innerText = current.substring(0, wChar);
+    if(wChar === current.length){ wDeleting = true; setTimeout(typeWelcome, 1500); return; }
+  }
+  setTimeout(typeWelcome, wDeleting ? 50 : 100);
+}
+function typeSub(){
+  let current = subWords[sIndex];
+  let el = document.getElementById("typingText");
+  if(sDeleting){
+    sChar--; el.innerText = current.substring(0, sChar);
+    if(sChar === 0){ sDeleting = false; sIndex = (sIndex+1) % subWords.length; }
+  } else {
+    sChar++; el.innerText = current.substring(0, sChar);
+    if(sChar === current.length){ sDeleting = true; setTimeout(typeSub, 1500); return; }
+  }
+  setTimeout(typeSub, sDeleting ? 30 : 70);
+}
+window.onload = function(){ typeWelcome(); typeSub(); };
+</script>
+<script>
+// Register Service Worker - Makes it installable
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(()=>console.log("F NEWS Installed")).catch(()=>{});
+}
+</script>
+
+</body>
+</html>

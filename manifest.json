@@ -1,0 +1,24 @@
+{
+  "name": "F NEWS - Nigeria Live News",
+  "short_name": "F NEWS",
+  "description": "Watch Live Nigerian News - Channels, Arise, TVC, NTA and read real Punch, Vanguard news",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#2f3e46",
+  "theme_color": "#ff3b30",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/21/21601.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/21/21601.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
